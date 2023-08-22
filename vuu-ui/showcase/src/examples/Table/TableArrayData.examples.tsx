@@ -384,7 +384,7 @@ export const SmaTable = () => {
       });
       dataSource.addListener("config", (config, ...rest) => {});
       return dataSource;
-      //return new ArrayDataSource({ columnDescriptors: columns, data });
+
     } catch (error) {
       return new ArrayDataSource({ columnDescriptors: columns, data });
     }
