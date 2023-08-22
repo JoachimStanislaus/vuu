@@ -31,13 +31,6 @@ export const aggregateData = (
   const aggType = aggregations[aggregations.length - 1].aggType;
   const groupIndices = groupBy.map<number>((column) => columnMap[column]);
 
-  console.log("!!!! groupIndices", groupIndices);
-  console.log("!!!! aggColumn", aggColumn);
-  console.log("!!!! aggType", aggType);
-  console.log("!!!! targetData", targetData);
-  console.log("!!!! columnMap", columnMap);
-  console.log("!!!! groupmap", groupMap);
-
   switch (aggType) {
     case 1:
       return aggregateSum(
@@ -125,13 +118,10 @@ function aggregateCount(
     }
   }
 
-  console.log("!!!! targetData", targetData);
-  console.log("!!!! counts", counts);
   return counts;
 }
 
 function getAggColumn(columnMap: ColumnMap, aggregations: VuuAggregation[]) {
-  console.log("!!!! aggregation length", aggregations.length);
   const columnName = aggregations[aggregations.length - 1].column;
   const columnNumber = columnMap[columnName];
   return columnNumber;
@@ -182,8 +172,6 @@ function aggregateSum(
     }
   }
 
-  console.log("!!!! targetData", targetData);
-  console.log("!!!! sums", sums);
   return sums;
 }
 
@@ -222,8 +210,6 @@ function aggregateAverage(
     }
   }
 
-  console.log("!!!! targetData", targetData);
-  console.log("!!!! averages", averages);
   return averages;
 }
 
@@ -277,8 +263,6 @@ function aggregateDistinct(
     }
   }
 
-  console.log("!!!! targetData", targetData);
-  console.log("!!!! distincts", distincts);
   return distincts;
 }
 
@@ -292,7 +276,6 @@ function aggregateHigh(
 ): { [key: string]: number } {
   const highs: { [key: string]: number } = {};
   const aggColumn = getAggColumn(columnMap, aggregations);
-  console.log("!!!! aggColumn", aggColumn);
 
   for (const key in groupMap) {
     const leafColumnData = getLeafColumnData(
@@ -312,8 +295,6 @@ function aggregateHigh(
     }
   }
 
-  console.log("!!!! highs", highs);
-  console.log("!!!! targetData aggregate High", targetData);
   return highs;
 }
 
@@ -346,7 +327,5 @@ function aggregateLow(
     }
   }
 
-  console.log("!!!! targetData aggregate Low", targetData);
-  console.log("!!!! mins", mins);
   return mins;
 }
