@@ -30,55 +30,122 @@ export const aggregateData = (
   const aggColumn = getAggColumn(columnMap, aggregations);
   const aggType = aggregations[aggregations.length - 1].aggType;
   const groupIndices = groupBy.map<number>((column) => columnMap[column]);
+  const benchmarkcount = 1000 ;
 
   switch (aggType) {
     case 1:
-      return aggregateSum(
-        groupMap,
-        leafData,
-        columnMap,
-        aggregations,
-        targetData,
-        groupIndices
-      );
+      let countsum = 0;
+      let avgsum = [];
+      while (countsum < benchmarkcount) {
+        const t0 = performance.now();
+        const summ = aggregateSum(
+          groupMap,
+          leafData,
+          columnMap,
+          aggregations,
+          targetData,
+          groupIndices
+        );
+        const t1 = performance.now();
+        avgsum.push(t1 - t0);
+        countsum += 1;
+      }
+      console.log("average of sum", avgsum.reduce((a, b) => a + b) / avgsum.length);
+      return 0;
     case 2:
-      return aggregateAverage(
-        groupMap,
-        leafData,
-        columnMap,
-        aggregations,
-        targetData,
-        groupIndices
-      );
+      let countavg = 0;
+      let avgavg = [];
+      while (countavg < benchmarkcount) {
+        const t0 = performance.now();
+        const avg = aggregateAverage(
+          groupMap,
+          leafData,
+          columnMap,
+          aggregations,
+          targetData,
+          groupIndices
+        );
+        const t1 = performance.now();
+        avgavg.push(t1 - t0);
+        countavg += 1;
+      }
+      console.log("average of average", avgavg.reduce((a, b) => a + b) / avgavg.length);
+      return 0;
     case 3:
-      return aggregateCount(groupMap, columnMap, aggregations, targetData, groupIndices);
+      let countcount = 0;
+      let avgcount = [];
+      while (countcount < benchmarkcount) {
+        const t0 = performance.now();
+        const count = aggregateCount(
+          groupMap,
+          columnMap,
+          aggregations,
+          targetData,
+          groupIndices
+        );
+        const t1 = performance.now();
+        avgcount.push(t1 - t0);
+        countcount += 1;
+      }
+      console.log("average of count", avgcount.reduce((a, b) => a + b) / avgcount.length);
+      return 0;
     case 4:
-      return aggregateHigh(
-        groupMap,
-        leafData,
-        columnMap,
-        aggregations,
-        targetData,
-        groupIndices
-      );
+      let counthigh = 0;
+      let avghigh = [];
+      while (counthigh < benchmarkcount) {
+        const t0 = performance.now();
+        const high = aggregateHigh(
+          groupMap,
+          leafData,
+          columnMap,
+          aggregations,
+          targetData,
+          groupIndices
+        );
+        const t1 = performance.now();
+        avghigh.push(t1 - t0);
+        counthigh += 1;
+      }
+      console.log("average of high", avghigh.reduce((a, b) => a + b) / avghigh.length);
+      return 0;
     case 5:
-      return aggregateLow(
-        groupMap,
-        leafData,
-        columnMap,
-        aggregations,
-        targetData,
-        groupIndices
-      );
+      let countlow = 0;
+      let avglow = [];
+      while (countlow < benchmarkcount) {
+        const t0 = performance.now();
+        const low = aggregateLow(
+          groupMap,
+          leafData,
+          columnMap,
+          aggregations,
+          targetData,
+          groupIndices
+        );
+        const t1 = performance.now();
+        avglow.push(t1 - t0);
+        countlow += 1;
+      }
+      console.log("average of low", avglow.reduce((a, b) => a + b) / avglow.length);
+      return 0;
     case 6:
-      return aggregateDistinct(
-        groupMap,
-        leafData,
-        columnMap,
-        aggregations,
-        targetData,
-        groupIndices
-      );
+      let countdistinct = 0;
+      let avgdistinct = [];
+      while (countdistinct < benchmarkcount) {
+        const t0 = performance.now();
+        const distinct = aggregateDistinct(
+          groupMap,
+          leafData,
+          columnMap,
+          aggregations,
+          targetData,
+          groupIndices
+        );
+        const t1 = performance.now();
+        avgdistinct.push(t1 - t0);
+        countdistinct += 1;
+      }
+      console.log("average of distinct", avgdistinct.reduce((a, b) => a + b) / avgdistinct.length);
+      return 0;
   }
 
 };
@@ -159,7 +226,6 @@ function aggregateSum(
   }
 
   for (const key in groupMap) {
-    console.log(key);
     const sum = Number(sumRecursive(groupMap[key], leafData, aggColumn));
     sums[key] = sum;
   }

@@ -390,6 +390,7 @@ export class ArrayDataSource
       ...this.#config,
       sort,
     };
+    const t0 = performance.now();
     const targetData = this.processedData ?? this.#data;
     this.processedData = sortRows(targetData, this.sort, this.#columnMap).map(
       (row, i) => {
@@ -400,6 +401,8 @@ export class ArrayDataSource
       }
     );
     this.setRange(resetRange(this.#range), true);
+    const t1 = performance.now();
+    console.log("sort", t1 - t0, "milliseconds.");
     this.emit("config", this.#config);
   }
 
@@ -414,6 +417,7 @@ export class ArrayDataSource
       ...this.#config,
       filter,
     };
+    const t0 = performance.now();
     const { filterStruct } = filter;
 
     if (filterStruct) {
@@ -430,6 +434,8 @@ export class ArrayDataSource
       this.filteredData = undefined;
     }
     this.setRange(resetRange(this.#range), true);
+    const t1 = performance.now();
+    console.log("filter", t1 - t0, "milliseconds.");
     this.emit("config", this.#config);
   }
 
@@ -442,6 +448,7 @@ export class ArrayDataSource
       ...this.#config,
       groupBy,
     };
+    const t0 = performance.now();
 
     if (groupBy.length) {
       const [groupedData, groupMap] = groupRows(
@@ -456,7 +463,8 @@ export class ArrayDataSource
       this.processedData = undefined;
     }
     this.setRange(resetRange(this.#range), true);
-
+    const t1 = performance.now();
+    console.log("groupby", t1 - t0, "milliseconds.");
     this.emit("config", this.#config);
   }
 

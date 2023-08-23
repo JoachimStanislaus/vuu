@@ -358,7 +358,7 @@ const columns = [
   { name: "return on equity", width: 100, serverDataType: "double"  },
 ];
 
-const numofrows = 100000;
+const numofrows = 1_000_000;
 
 const newArray = createArray(numofrows, columns.length);
 
